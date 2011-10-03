@@ -1,3 +1,3 @@
-Blog for hross.net. Based heavily on [TPW's blog](https://github.com/mojombo/tpw).
+This blog is pretty much a rip of [TPW's blog](http://github.com/mojombo/tpw).  The rip was inspired by my buddy [hross](http://github.com/hross).
 
-Check out the pages info for [more](http://pages.github.com/).
+Check out the [github pages](http://pages.github.com/) info for how to do this yourself.
