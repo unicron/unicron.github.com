@@ -1,13 +1,14 @@
 ---
 layout: default
-title: hross
+title: Archive
 ---
 
 <div id="home">
-  <h1>Latest Posts</h1>
+  <h1>All Posts</h1>
   <ul class="posts">
-    {% for post in site.posts offset: 0 limit: 10 %}
+    {% for post in site.posts %}
       <li><span>{{ post.date | date_to_string }}</span> &raquo; <a href="{{ post.url }}">{{ post.title }}</a></li>
     {% endfor %}
   </ul>
+  <p><a href="http://hross.net/blog/archives.html">Even older posts...</a></p>
 </div>
