@@ -14,26 +14,26 @@ Let's take a look at WebdavServlet.java (obtained via [Subversion][4] @ http://s
 
 **LOCK:** Interestingly, there are two steps to perform here.  First, you must get the file from Documentum and move it to a local path (I am just moving it to the root of the application context).  You should do this right after the path is retrieved from the request object (look for this line in doLock():
 
-```java
-String path = getRelativePath(req);
-
-...
-
-Content contentObj = d.getContents().get(0);
-// Get the Content of this file
-if (contentObj.canGetAsFile()) {
-	File f = contentObj.getAsFile();
-	File to = new File(getServletContext().getRealPath("/")+ path);
-	if (f.renameTo(to))
-		log("get successful.");
-	else {
-		if (f.exists() &amp;&amp; f.canWrite())
-			f.delete();
-		log("file move failed.");
-	}
-} else {
-	log("get unsuccessful.");
-}
+``` java
+    String path = getRelativePath(req);
+    
+    ...
+    
+    Content contentObj = d.getContents().get(0);
+    // Get the Content of this file
+    if (contentObj.canGetAsFile()) {
+    	File f = contentObj.getAsFile();
+    	File to = new File(getServletContext().getRealPath("/")+ path);
+    	if (f.renameTo(to))
+    		log("get successful.");
+    	else {
+    		if (f.exists() &amp;&amp; f.canWrite())
+    			f.delete();
+    		log("file move failed.");
+    	}
+    } else {
+    	log("get unsuccessful.");
+    }
 ```    
 
 The second step is to checkout the document in Documentum.  You can do this pretty much wherever you want in the method, but I prefer to wait until the very end of doLock() to make sure that the file was downloaded successfully.  Now you have the local file for Tomcat to serve with GET (which is called after LOCK), and it is locked for editing in your repository.
@@ -44,13 +44,13 @@ The second step is to checkout the document in Documentum.  You can do this pret
 
 **UNLOCK:** All you do here is cancel the checkout in the repository.  That's it.  Well, I also delete it from the filesystem just to be sure it doesn't get stepped on later:
 
-```java
-//remove the file from the filesystem
-File f = new File(getServletContext().getRealPath("/")+ path);
-if (f.exists() &amp;&amp; f.canWrite()) {
-	f.delete();
-	log("file deleted.");
-}
+``` java
+    //remove the file from the filesystem
+	File f = new File(getServletContext().getRealPath("/")+ path);
+	if (f.exists() &amp;&amp; f.canWrite()) {
+		f.delete();
+		log("file deleted.");
+	}
 ```    
 
 Now, you may be wondering "hey, what about security?"  This is a very good question and is something that, fortunate for me, I did not have to worry about since this is not a public system.  Tomcat's WebDAV default web.xml does allow for the normal Tomcat authentication methods (using conf/tomcat-users.xml and the like) so this is still a possibility.  I pass the username in the URL to the file, so I know who to perform repository operations as, in the form 
