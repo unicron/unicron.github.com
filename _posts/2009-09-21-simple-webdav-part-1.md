@@ -45,7 +45,7 @@ The second step is to checkout the document in Documentum.  You can do this pret
 **UNLOCK:** All you do here is cancel the checkout in the repository.  That's it.  Well, I also delete it from the filesystem just to be sure it doesn't get stepped on later:
 
 {% highlight java %}
-    //remove the file from the filesystem
+	//remove the file from the filesystem
 	File f = new File(getServletContext().getRealPath("/")+ path);
 	if (f.exists() &amp;&amp; f.canWrite()) {
 		f.delete();
