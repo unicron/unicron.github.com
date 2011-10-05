@@ -4,7 +4,7 @@ title: Simple WebDAV Part 2
 categories: [.net, webdav]
 ---
 
-**Part 2 **of this **[series][1]** is about the client-side extension used to open the remote file locally.  Normally, clicking a link to a file causes the browser to prompt the user or OS for what to do with it, and then pull it down as a stream.  This behavior can sometimes be modified depending on the HTTP headers sent along with the server response (attachment specification, MIME type, etc.), and browser plugins, but in nearly all cases it is still the browser interacting with the file as a stream and opening it directly.  Since the browser is not a WebDAV client, it doesn’t implement the protocols we need.
+**Part 2** of this **[series][1]** is about the client-side extension used to open the remote file locally.  Normally, clicking a link to a file causes the browser to prompt the user or OS for what to do with it, and then pull it down as a stream.  This behavior can sometimes be modified depending on the HTTP headers sent along with the server response (attachment specification, MIME type, etc.), and browser plugins, but in nearly all cases it is still the browser interacting with the file as a stream and opening it directly.  Since the browser is not a WebDAV client, it doesn’t implement the protocols we need.
 
 What we need to do is open the file directly using a WebDAV client, such as Microsoft Word.  We can accomplish this one of several ways:
 
