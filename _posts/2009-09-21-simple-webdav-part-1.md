@@ -4,8 +4,6 @@ title: Simple WebDAV Part 1
 categories: [java, .net, webdav]
 ---
 
-# Simple WebDAV Part 1 | one big ocean
-
 This is **part 1 of a [2-part][1] series** detailing how I implemented [WebDAV][2] support for a [Documentum][3] repository.  It is very basic and does not implement all of the methods that WebDAV supports, but it gets the job done.  The end result is a type of "Web Edit" functionality that allows single-click checkout, edit, and checkin for Microsoft Office files (but the idea isn't restricted in any way to MS Office types).
 
 **The first goal is the actual WebDAV server**, which was actually much easier to put together than I expected.  Some of you may already know, but I was surprised to learn that Apache Tomcat 5.5+ has WebDAV support **built in** as a standalone servlet.  I simply copied this "WebdavServlet" and stuck my code in where it made sense.  WebdavServlet uses the filesystem as its repository, which is a common and flexible way to handle opening and editing files.  This works fine for us, since we are working with physical files as well (they just don't happen to be in this particular location, yet).  **Our second goal is to get those files to behave as if they are local**.
@@ -45,12 +43,12 @@ The second step is to checkout the document in Documentum.  You can do this pret
 **UNLOCK:** All you do here is cancel the checkout in the repository.  That's it.  Well, I also delete it from the filesystem just to be sure it doesn't get stepped on later:
 
 {% highlight java %}
-	//remove the file from the filesystem
-	File f = new File(getServletContext().getRealPath("/")+ path);
-	if (f.exists() &amp;&amp; f.canWrite()) {
-		f.delete();
-		log("file deleted.");
-	}
+    //remove the file from the filesystem
+    File f = new File(getServletContext().getRealPath("/")+ path);
+    if (f.exists() &amp;&amp; f.canWrite()) {
+	    f.delete();
+	    log("file deleted.");
+    }
 {% endhighlight %}
 
 Now, you may be wondering "hey, what about security?"  This is a very good question and is something that, fortunate for me, I did not have to worry about since this is not a public system.  Tomcat's WebDAV default web.xml does allow for the normal Tomcat authentication methods (using conf/tomcat-users.xml and the like) so this is still a possibility.  I pass the username in the URL to the file, so I know who to perform repository operations as, in the form 
@@ -61,7 +59,7 @@ Your WebDAV server implementation should now be complete!  But how will you prov
 
 Cheers!
 
- [1]: http://www.onebigocean.com/index.php/2009/10/simple-webdav-part-2/ "Simple WebDAV Part 2"
+ [1]: 2009-09-21-simple-webdav-part-2 "Simple WebDAV Part 2"
  [2]: http://www.webdav.org/
  [3]: http://www.emc.com/products/family/documentum-family.htm
  [4]: http://subversion.tigris.org/  
