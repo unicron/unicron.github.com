@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Simple WebDAV Part 1
-categories: [java, .net, webdav]
+categories: [documentum, java, webdav]
 ---
 
 This is **part 1 of a [2-part][1] series** detailing how I implemented [WebDAV][2] support for a [Documentum][3] repository.  It is very basic and does not implement all of the methods that WebDAV supports, but it gets the job done.  The end result is a type of "Web Edit" functionality that allows single-click checkout, edit, and checkin for Microsoft Office files (but the idea isn't restricted in any way to MS Office types).
@@ -59,7 +59,7 @@ Your WebDAV server implementation should now be complete!  But how will you prov
 
 Cheers!
 
- [1]: 2009-09-21-simple-webdav-part-2 "Simple WebDAV Part 2"
+ [1]: 2009-10-15-simple-webdav-part-2 "Simple WebDAV Part 2"
  [2]: http://www.webdav.org/
  [3]: http://www.emc.com/products/family/documentum-family.htm
  [4]: http://subversion.tigris.org/  
