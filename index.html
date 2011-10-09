@@ -4,10 +4,12 @@ title: unicron
 ---
 
 <div id="home">
-  <h2>Latest Posts</h2>
-  <ul class="posts">
-    {% for post in site.posts offset: 0 limit: 10 %}
-      <li><span>{{ post.date | date_to_string }}</span> &raquo; <a href="{{ post.url }}">{{ post.title }}</a></li>
-    {% endfor %}
-  </ul>
+  <div class="span4"><h2>Latest Posts</h2></div>
+  <div class="span11 offset1">
+	<ul class="posts">
+	  {% for post in site.posts offset: 0 limit: 10 %}
+	    <li><span>{{ post.date | date_to_string }}</span> &raquo; <a href="{{ post.url }}">{{ post.title }}</a></li>
+	  {% endfor %}
+	</ul>
+  </div>
 </div>
