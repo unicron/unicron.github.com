@@ -59,7 +59,7 @@ Your WebDAV server implementation should now be complete!  But how will you prov
 
 Cheers!
 
- [1]: {% post_url 2009-10-15-simple-webdav-part-2 %} "Simple WebDAV Part 2"
+ [1]: http://unicron.github.com/.net/webdav/2009/10/15/simple-webdav-part-2.html "Simple WebDAV Part 2"
  [2]: http://www.webdav.org/
  [3]: http://www.emc.com/products/family/documentum-family.htm
  [4]: http://subversion.tigris.org/  
