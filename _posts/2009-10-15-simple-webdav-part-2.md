@@ -182,4 +182,4 @@ function webedit(id) {
 **Provide only the Link**:  
 As a last resort, you can always provide/display a link for the user to open manually.  While this sounds silly, users still gain the benefit of WebDAV actions from within their local apps, meaning they still save directly against the repository.  This can be helpful for people who work on a few files a day for a longer period of time rather than those who open lots and lots of documents daily.
 
- [1]: /2009-09-21-simple-webdav-part-1 "Simple WebDAV Part 1"  
+ [1]: {% post_url 2009-09-21-simple-webdav-part-1 %} "Simple WebDAV Part 1"  
