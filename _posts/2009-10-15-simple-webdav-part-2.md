@@ -21,163 +21,163 @@ You can see how simple this is (remember to create new GUIDs for yourself!):
 
 *WebEditCS.cs*:
 
-{% highlight c# %}
-    namespace WebEdit.ActiveX.CS {
-    
-        [
-            Guid("B6E9F230-F7C6-4686-9DB1-6C0E8C33FBA2"),
-            InterfaceType(ComInterfaceType.InterfaceIsDual),
-            ComVisible(true)
-        ]
-        public interface IWebEditCS {
-            [DispId(1)]
-            bool DoWebEdit(int app, string url);
-        };
-    
-        [
-            Guid("01453349-18FB-434f-AB73-BFA3F73D9967"),
-    
-            // This is basically the programmer friendly name
-            // for the guid above. We define this because it will
-            // be used to instantiate this class. I think this can be
-            // whatever you want. Generally it is
-            // [assemblyname].[classname]
-            ProgId("WebEdit.ActiveX"),
-    
-            // No class interface is generated for this class and
-            // no interface is marked as the default.
-            // Users are expected to expose functionality through
-            // interfaces that will be explicitly exposed by the object
-            // This means the object can only expose interfaces we define
-            ClassInterface(ClassInterfaceType.None),
-    
-            // Set the default COM interface that will be used for
-            // Automation. Languages like: C#, C++ and VB
-            // allow to query for interface's we're interested in
-            // but Automation only aware languages like javascript do
-            // not allow to query interface(s) and create only the
-            // default one
-            ComDefaultInterface(typeof(IWebEditCS)),
-            ComVisible(true)
-        ]
-        public class WebEditCS : IObjectSafetyImpl, IWebEditCS {
-    
-            public bool DoWebEdit(int app, string url) {
-                return WebEditVB.DoWebEditVB(app, url);
-            }
-        };
-    }
-{% endhighlight %}    
+<pre class="prettyprint">
+namespace WebEdit.ActiveX.CS {
+
+	[
+		Guid("B6E9F230-F7C6-4686-9DB1-6C0E8C33FBA2"),
+		InterfaceType(ComInterfaceType.InterfaceIsDual),
+		ComVisible(true)
+	]
+	public interface IWebEditCS {
+		[DispId(1)]
+		bool DoWebEdit(int app, string url);
+	};
+
+	[
+		Guid("01453349-18FB-434f-AB73-BFA3F73D9967"),
+
+		// This is basically the programmer friendly name
+		// for the guid above. We define this because it will
+		// be used to instantiate this class. I think this can be
+		// whatever you want. Generally it is
+		// [assemblyname].[classname]
+		ProgId("WebEdit.ActiveX"),
+
+		// No class interface is generated for this class and
+		// no interface is marked as the default.
+		// Users are expected to expose functionality through
+		// interfaces that will be explicitly exposed by the object
+		// This means the object can only expose interfaces we define
+		ClassInterface(ClassInterfaceType.None),
+
+		// Set the default COM interface that will be used for
+		// Automation. Languages like: C#, C++ and VB
+		// allow to query for interface's we're interested in
+		// but Automation only aware languages like javascript do
+		// not allow to query interface(s) and create only the
+		// default one
+		ComDefaultInterface(typeof(IWebEditCS)),
+		ComVisible(true)
+	]
+	public class WebEditCS : IObjectSafetyImpl, IWebEditCS {
+
+		public bool DoWebEdit(int app, string url) {
+			return WebEditVB.DoWebEditVB(app, url);
+		}
+	};
+}
+</pre>   
 
 This is just an example, and could be modified a lot to open different applications with different settings.   This particular version also uses a single copy of each application by getting a reference to the running object (if it exists).  While this is probably the safest way to do Office Automation, it isn’t the only one (you can certainly open a new copy every time a link is opened…).   Experiment and find what works best for your situation.
 
 *WebEditVB.vb*:
 
-{% highlight vbnet %}
-    Namespace WebEdit.ActiveX.VB
-        Public Class WebEditVB
-    
-            Private Shared Function GetInstance(ByVal appName As String) As Object
-                Dim application As Object = Nothing
-    
-                Try
-                    application = Marshal.GetActiveObject(appName)
-                    If application Is Nothing Then
-                        application = CreateObject(appName)
-                    End If
-                Catch ex As Exception
-                    application = CreateObject(appName)
-                End Try
-    
-                Return application
-            End Function
-    
-            Public Shared Function DoWebEditVB(ByVal app As Integer, ByVal url As String) As Boolean
-    
-                Dim application As Object = Nothing
-                Dim document As Object = Nothing
-    
-                Try
-                    If app = 0 Then
-                        application = GetInstance("Word.Application")
-                        application.Visible = True
-                        document = application.Documents.Open(url)
-                        document.Activate()
-    
-                    ElseIf app = 1 Then
-                        application = GetInstance("PowerPoint.Application")
-                        application.Visible = True
-                        document = application.Presentations.Open(url)
-    
-                    ElseIf app = 2 Then
-                        'user cannot have an open spreadsheet with a cell currently being edited!
-                        application = GetInstance("Excel.Application")
-                        application.Visible = True
-                        document = application.Workbooks.Open(url)
-                        document.Activate()
-                    End If
-    
-                Catch ex As Exception
-                    Try
-                        Dim logName As String = "C:Program FilesNLRBQuickEdit-ErrorLog.txt"
-                        Dim fs As FileStream = New FileStream(logName, FileMode.Append, FileAccess.Write)
-                        Dim sw As StreamWriter = New StreamWriter(fs)
-                        sw.WriteLine(DateTime.Now.ToString())
-                        sw.WriteLine(ex.ToString())
-                        sw.Close()
-                        fs.Close()
-                    Catch
-                    End Try
-    
-                    Return False
-                End Try
-    
-                Return True
-            End Function
-    
-        End Class
-    End Namespace
-{% endhighlight %}    
+<pre class="prettyprint">
+Namespace WebEdit.ActiveX.VB
+	Public Class WebEditVB
+
+		Private Shared Function GetInstance(ByVal appName As String) As Object
+			Dim application As Object = Nothing
+
+			Try
+				application = Marshal.GetActiveObject(appName)
+				If application Is Nothing Then
+					application = CreateObject(appName)
+				End If
+			Catch ex As Exception
+				application = CreateObject(appName)
+			End Try
+
+			Return application
+		End Function
+
+		Public Shared Function DoWebEditVB(ByVal app As Integer, ByVal url As String) As Boolean
+
+			Dim application As Object = Nothing
+			Dim document As Object = Nothing
+
+			Try
+				If app = 0 Then
+					application = GetInstance("Word.Application")
+					application.Visible = True
+					document = application.Documents.Open(url)
+					document.Activate()
+
+				ElseIf app = 1 Then
+					application = GetInstance("PowerPoint.Application")
+					application.Visible = True
+					document = application.Presentations.Open(url)
+
+				ElseIf app = 2 Then
+					'user cannot have an open spreadsheet with a cell currently being edited!
+					application = GetInstance("Excel.Application")
+					application.Visible = True
+					document = application.Workbooks.Open(url)
+					document.Activate()
+				End If
+
+			Catch ex As Exception
+				Try
+					Dim logName As String = "C:Program FilesNLRBQuickEdit-ErrorLog.txt"
+					Dim fs As FileStream = New FileStream(logName, FileMode.Append, FileAccess.Write)
+					Dim sw As StreamWriter = New StreamWriter(fs)
+					sw.WriteLine(DateTime.Now.ToString())
+					sw.WriteLine(ex.ToString())
+					sw.Close()
+					fs.Close()
+				Catch
+				End Try
+
+				Return False
+			End Try
+
+			Return True
+		End Function
+
+	End Class
+End Namespace
+</pre> 
 
 **Use the SharePoint Library**:  
 After developing my own control, I discovered that there was an even easier way to accomplish the same thing.  I found out that Microsoft ships a (probably similar) control as part of each Office installation starting with Office 2000.  This control seems to work pretty much the same as my version, except it doesn’t implement IObjectSafety.   The advantage is that you do not have to deploy any kind of client-side control because it is already on every machine with Office!  In many cases, even though it is not as nice for your users (who will have to click ‘Yes’ on a dialog every time), it is often the only viable option in an enterprise (which often won’t allow you to push ActiveX/COM controls out to users).
 
 As you can see above, I don’t have any specialized logic for opening these applications or files, so using the library that ships with Office is great for me.  I implemented this so that it tries to use each version of the library (there is a different version for each Office version…) in turn.
 
-{% highlight js %}
-    function webedit(id) {
-		if (window.ActiveXObject) {
-			var ed;
+<pre class="prettyprint">
+function webedit(id) {
+	if (window.ActiveXObject) {
+		var ed;
+		try {
+			//Office 2003
+			ed = new ActiveXObject('SharePoint.OpenDocuments.2');
+		} catch (err1) {
 			try {
-				//Office 2003
-				ed = new ActiveXObject('SharePoint.OpenDocuments.2');
-			} catch (err1) {
+				//Office 2000/XP
+				ed = new ActiveXObject('SharePoint.OpenDocuments.1');
+			} catch (err2) {
 				try {
-					//Office 2000/XP
-					ed = new ActiveXObject('SharePoint.OpenDocuments.1');
-				} catch (err2) {
-					try {
-						//Office 2007
-						ed = new ActiveXObject('SharePoint.OpenDocuments.3');
-					} catch (err3) {
-						window.alert('Unable to create an ActiveX object to open the document. This is most likely because of the security settings for your browser.');
-						return false;
-					}
+					//Office 2007
+					ed = new ActiveXObject('SharePoint.OpenDocuments.3');
+				} catch (err3) {
+					window.alert('Unable to create an ActiveX object to open the document. This is most likely because of the security settings for your browser.');
+					return false;
 				}
 			}
-			if (ed) {
-				ed.EditDocument('/webdav/--'+id);
-				return false;
-			} else {
-				window.alert('Cannot instantiate the required ActiveX control to open the document. This is most likely because you do not have Office installed or you have an older version of Office.');
-				return false;
-			}
-		} else {
-			window.alert('Internet Explorer is required to use this feature.');
 		}
-		return false;
+		if (ed) {
+			ed.EditDocument('/webdav/--'+id);
+			return false;
+		} else {
+			window.alert('Cannot instantiate the required ActiveX control to open the document. This is most likely because you do not have Office installed or you have an older version of Office.');
+			return false;
+		}
+	} else {
+		window.alert('Internet Explorer is required to use this feature.');
 	}
-{% endhighlight %}    
+	return false;
+}
+</pre>
 
 **Provide only the Link**:  
 As a last resort, you can always provide/display a link for the user to open manually.  While this sounds silly, users still gain the benefit of WebDAV actions from within their local apps, meaning they still save directly against the repository.  This can be helpful for people who work on a few files a day for a longer period of time rather than those who open lots and lots of documents daily.
