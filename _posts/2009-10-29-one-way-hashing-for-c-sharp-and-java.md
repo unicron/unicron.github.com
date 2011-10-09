@@ -12,7 +12,7 @@ The trick here is that I needed to generate the hash in Java and then check it i
 
 Let’s take a look at the Java version:
 
-{% highlight java %}
+<pre class="prettyprint">
     public static String generateSHA1Hash(String input) throws Exception {
 
 		MessageDigest messagedigest = MessageDigest.getInstance("SHA");
@@ -29,11 +29,11 @@ Let’s take a look at the Java version:
 
 		return s.toString();
 	}
-{% endhighlight %}      
+</pre>     
 
 The input is an ID string plus a *salt *(another, static string).  You need the salt in order to prevent someone from guessing how the hash  is generated.  The key is that second part which is taking each byte and converting it into a character (so it can be easily displayed and passed around).  This is where the difficulty presented itself.  I could get the same output in byte form, but the character conversion was funky.  I feel like I am probably doing something wrong, because I had to actually just drop any space ” ” characters in the C# version:
 
-{% highlight c# %}
+<pre class="prettyprint">
     private bool checkHash(message) {
 
 		SHA1 sha = new SHA1Managed();
@@ -50,7 +50,7 @@ The input is an ID string plus a *salt *(another, static string).  You need the 
 
 		return (docReq.Hash.Equals(newHash.ToString()))
 	}
-{% endhighlight %}      
+</pre>
 
 In this example, message is the incoming text to hash (in this case, the ID string along with the *same salt* used in generating the original), and docReq.Hash is the existing hash to compare against.  As you can see, the code is not quite the same (but very similar).  Can anyone point out the mistake I made and tell me why the C# version produces ” ” characters, but the Java version does not?
 
