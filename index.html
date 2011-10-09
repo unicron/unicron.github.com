@@ -3,7 +3,10 @@ layout: default
 title: unicron
 ---
 
-<div class="span3 offset1"><h2>Latest Posts</h2></div>
+<div class="span3 offset1">
+  <h2>Latest Posts</h2><br />
+  <span class="label success">New!</span>
+</div>
 <div class="span12">
 	<ul class="posts">
 	  {% for post in site.posts offset: 0 limit: 10 %}
