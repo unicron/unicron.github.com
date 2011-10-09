@@ -4,8 +4,8 @@ title: unicron
 ---
 
 <div id="home">
-  <div class="span4"><h2>Latest Posts</h2></div>
-  <div class="span12">
+  <div class="span2 offset1"><h2>Latest Posts</h2></div>
+  <div class="span13">
 	<ul class="posts">
 	  {% for post in site.posts offset: 0 limit: 10 %}
 	    <li><span>{{ post.date | date_to_string }}</span> &raquo; <a href="{{ post.url }}">{{ post.title }}</a></li>
