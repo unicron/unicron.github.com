@@ -2,18 +2,20 @@
 layout: default
 ---
 
-<h2>{{ page.title }}</h2>
+<div class="span16">
+	<h2>{{ page.title }}</h2>
 
-{{ content }}
+	{{ content }}
+</div>
 
 <hr />
 <div class="span3 offset1"><h3>Related Posts</h3></div>
 <div class="span12">  
-<ul class="posts">
-  {% for post in site.related_posts limit:3 %}
-	<li><span>{{ post.date | date_to_string }}</span> &raquo; <a href="{{ post.url }}">{{ post.title }}</a></li>
-  {% endfor %}
-</ul>
+	<ul class="posts">
+	  {% for post in site.related_posts limit:3 %}
+		<li><span>{{ post.date | date_to_string }}</span> &raquo; <a href="{{ post.url }}">{{ post.title }}</a></li>
+	  {% endfor %}
+	</ul>
 </div>
 
 <!--<div id="disqus_thread"></div>
