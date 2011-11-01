@@ -1,1 +1,0 @@
-Easy Java Caching with EHCache
